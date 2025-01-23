@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from .. import db
 from ..models import DataStore
+import json
 import logging
 # 블루프린트 정의
 db_bp = Blueprint('man', __name__,url_prefix='/man')
@@ -53,6 +54,7 @@ def api_db_read():
         return {"error": "Key is required"}, 400
     return db_read_one(key)
 
+#json 형태로 보낼 수 있음
 @db_bp.route('/write', methods=['POST'])
 def api_db_write():
     try:
@@ -61,7 +63,12 @@ def api_db_write():
             return {"error": "Invalid JSON format"}, 400
         if 'key' not in data or 'value' not in data:
             return {"error": "Key and value are required"}, 400
+         # value가 dict 형태인 경우 JSON 문자열로 변환
+        if isinstance(data['value'], dict):
+            data['value'] = json.dumps(data['value'])
+
         return db_write_one(data['key'], data['value'])
+        
     except Exception as e:
         return {"error": str(e)}, 500
 
