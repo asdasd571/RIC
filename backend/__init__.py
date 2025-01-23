@@ -4,7 +4,7 @@ from flask import Flask, json, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from . import confi
+from . import config
 from .views.vrapp import eprint, eeprint, RAPP_NAME, RAPP_URL, VIAVI_MODE, LG_MODE, ENABLE_RAPP_REG, print_rApp_status, rApp_reg, Num_Cell, network_info, Data_Update, rApp_algorithm, Thread, VIAVI_Direct_Mode, SCHEDULE_PERIOD, BLOCK_NAME, HOST_ADDRESS, HOST_PORT
 
 # SQLAlchemy 인스턴스를 한 번만 생성
