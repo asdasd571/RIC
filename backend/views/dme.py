@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..__init__ import db
+from .. import db
 from ..models import DataStore
 import logging
 # 블루프린트 정의
