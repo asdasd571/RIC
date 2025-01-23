@@ -1,0 +1,64 @@
+version: '3.7'
+
+services:
+  flask_app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile  # Flask Dockerfile 사용
+    volumes:
+      - .:/app  # 코드 변경 시 반영
+    environment:
+      - FLASK_APP=wsgi.py
+      - FLASK_ENV=development
+      - PGPASSWORD=1234
+    networks:
+      - app_network
+    ports:
+      - 8000:8000  # Flask 애플리케이션의 포트 (8000으로 연결)
+    depends_on:
+      - postgres
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile  # Nginx Dockerfile 사용
+    ports:
+      - "8080:80"  # Nginx 포트 80을 외부에 노출
+    depends_on:
+      - flask_app
+    networks:
+      - app_network
+
+  postgres:
+    image: postgres:12.22
+    environment:
+      POSTGRES_USER: nak
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: mydb
+    volumes:
+      - /var/lib/docker/volumes/ross_postgres_data/_data
+    networks:
+      - app_network
+
+  pgadmin:
+     image: dpage/pgadmin4
+     container_name: pgadmin
+     environment:
+       PGADMIN_DEFAULT_EMAIL: admin@admin.com
+       PGADMIN_DEFAULT_PASSWORD: admin
+
+     ports:
+       - "5051:80"
+     networks:
+       - app_network
+     depends_on:
+       - postgres
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+
