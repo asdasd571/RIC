@@ -17,7 +17,7 @@
 ################################################################
 
 # from . import Lib_ROSS_BK   ## Package REST GET/PUT/POST
-from .Lib_sme_bk import rApp_Catalogue,rApp_Catalogue_Enhanced_get
+from .Lib_sme_bk import *
 #from kpm_console    import * ## For Performance Evaluation
 #from kpm_compare    import * ## For Performance Evaluation
 from .kpm_console import *
@@ -1948,10 +1948,6 @@ def alarm_send (name, level, text):
 ## 2. Non-RT RIC Menu
 ################################
 ## rApps Menu           ## Show all rApps
-# def get_rapp_data(id):
-#     target_url = f'http://localhost:8080/sme/rappcatalogue/{id}'
-#     response.requests.get(target_url)
-#     return response.json()
 
 @bp.route('/rapp')    ## use OSC rApp Catalogue-enhanced
 def rApps ():
@@ -1961,6 +1957,7 @@ def rApps ():
     rapps = []
 
     ids = rApp_Catalogue()
+    print("rapp_catalogue")
     
     for id in ids:
         data = rApp_Catalogue_Enhanced_get(id)
@@ -1970,6 +1967,7 @@ def rApps ():
     Num_rApp = len (ids)
 
     if VIAVI_MODE == "OFF":
+        print("rapp_catalogue")
 
         rapps.append (dummy_rapp (RAPP_ES_URL, "ESrApp1"))
         rapps.append (dummy_rapp (RAPP_ES_URL, "ESrApp2"))
@@ -2256,7 +2254,7 @@ def e2node ():
         ## 1) Read NI from VIAVI Direct 
         target_url = VIAVI_URL + "/O1/CM/" + "ManagedElement"
 
-        data = requests_get (target_url)
+        data = requests.get (target_url)
 
     else: 
 
