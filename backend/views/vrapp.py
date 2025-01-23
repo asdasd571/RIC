@@ -16,11 +16,10 @@
 ##
 ################################################################
 
-from .Lib_ROSS_BK    import * ## Package REST GET/PUT/POST
-from .Lib_sme_bk     import *
+# from . import Lib_ROSS_BK   ## Package REST GET/PUT/POST
+from .Lib_sme_bk import rApp_Catalogue,rApp_Catalogue_Enhanced_get
 #from kpm_console    import * ## For Performance Evaluation
 #from kpm_compare    import * ## For Performance Evaluation
-
 from .kpm_console import *
 
 ## <My Address:Port>
@@ -1790,7 +1789,7 @@ def check_ross (name, desc):
 
 def check_rapp (name, desc):
 
-    ids = rApp_Catalogue () # Get ID lists
+    ids = Lib_sme_bk.rApp_Catalogue() # Get ID lists
     Num_rApp = len (ids) 
 
     if VIAVI_MODE == "OFF":
@@ -1949,6 +1948,11 @@ def alarm_send (name, level, text):
 ## 2. Non-RT RIC Menu
 ################################
 ## rApps Menu           ## Show all rApps
+# def get_rapp_data(id):
+#     target_url = f'http://localhost:8080/sme/rappcatalogue/{id}'
+#     response.requests.get(target_url)
+#     return response.json()
+
 @bp.route('/rapp')    ## use OSC rApp Catalogue-enhanced
 def rApps ():
 
@@ -1956,11 +1960,10 @@ def rApps ():
 
     rapps = []
 
-
-    ids = rApp_Catalogue () # Get ID lists
+    ids = rApp_Catalogue()
     
     for id in ids:
-        data = rApp_Catalogue_Enhanced_get (id)
+        data = rApp_Catalogue_Enhanced_get(id)
         data_trans = real_rapp (RAPP_ES_URL, data)
         rapps.append (data_trans)
 
