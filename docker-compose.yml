@@ -36,7 +36,11 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: mydb
     volumes:
+<<<<<<< HEAD
       - /var/lib/docker/volumes/ross_postgres_data/_data
+=======
+      - postgres_data:/var/lib/postgresql/data
+>>>>>>> 79042b8 (0203수정)
     networks:
       - app_network
 
