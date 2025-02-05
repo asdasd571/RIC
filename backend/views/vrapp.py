@@ -245,7 +245,7 @@ def dashboard ():
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
-    return data
+    return jsonify(data)
 
 
 ###################################################################################################################

@@ -9,7 +9,7 @@ from .views.vrapp import eprint, eeprint, RAPP_NAME, RAPP_URL, VIAVI_MODE, LG_MO
 
 # SQLAlchemy 인스턴스를 한 번만 생성
 db = SQLAlchemy()
-# app = FLASK(__name__) 하면 전역 변수로 쓸 수 있긴하지만 create_app으로 애초에 flask 실행할 때 시작하므로 굳이 만들기 x
+
 def create_app():
     # Flask 애플리케이션 객체 생성
     app = Flask(__name__)
@@ -19,7 +19,7 @@ def create_app():
 
     # Flask 애플리케이션 설정
     app.config.from_object(config)
-
+    
     # SQLAlchemy 설정
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://nak:1234@postgres:5432/mydb'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,7 +30,7 @@ def create_app():
 
     migrate = Migrate(app,db)
 
-
+    ####################################################################
     # 블루프린트 등록
     from .views.Lib_login import ap as login
     from .views.kpm_console import ap as console
@@ -44,6 +44,7 @@ def create_app():
     app.register_blueprint(sme)
     app.register_blueprint(agent)
     app.register_blueprint(datab)
+    ####################################################################
 
     #db_init 처리
     with app.app_context():
